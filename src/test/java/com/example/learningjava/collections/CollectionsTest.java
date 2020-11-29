@@ -41,4 +41,16 @@ class CollectionsTest {
         System.out.println();
         list.forEach(System.out::print);
     }
+
+    @Test
+    void test2() {
+        List<String> foo = Arrays.asList("1234", "432", "123231", "1");
+        foo.sort((o1, o2) -> { // comparator interface
+            if (o1.length() > o2.length()) return 1;
+            else if (o1.length() < o2.length()) return -1;
+            return 0;
+        });
+        System.out.println(foo);
+    }
+
 }
