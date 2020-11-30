@@ -41,4 +41,5 @@ class IoTest {
         assertThat(lines).containsExactly("hello", "new line", "foo");
     }
 //    DataOutputStream do pisania danych w roznej postaci, kodowanie etc
+//    RandomAccessFile - nie tylko strumieniowo, czytanie bajtowo jak z tablicy
 }
