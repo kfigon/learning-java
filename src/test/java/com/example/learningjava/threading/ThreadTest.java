@@ -81,4 +81,8 @@ class ThreadTest {
 //    thread members - on heap - not safe. Need synchro or atomic type or threadlocal
 
 
+//    raczej nie managujemy threadow recznie. Uzywamy threadpooli
+//    Executors.newFixedThreadPool(3)
+
+//    thread starvation - zbyt wysoki priorytet na watku, wywlaszcza inne
 }
