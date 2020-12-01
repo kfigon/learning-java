@@ -33,7 +33,7 @@ class ThreadTest {
 
     @Test
     void interrupt() {
-        // then thread sleeps, we can interrupt
+        // we can interrupt
         System.out.println("hello from main");
         Thread longThread = new Thread(() -> {
             try {
@@ -51,4 +51,34 @@ class ThreadTest {
         longThread.interrupt();
         System.out.println("goodbye to main");
     }
+
+    @Test
+    void join() throws InterruptedException {
+        // join - watek wolajacy (main) czeka, az zawolany sie zakonczy
+
+//hello from main
+//Starting long thread
+//Ending long thread
+//goodbye to main
+
+        System.out.println("hello from main");
+        Thread longThread = new Thread(() -> {
+            try {
+                System.out.println(ConsoleColor.CYAN.getCode() + "Starting long thread");
+                sleep(1000);
+                System.out.println(ConsoleColor.CYAN.getCode() + "Ending long thread");
+            } catch (InterruptedException e) {
+                System.out.println(ConsoleColor.BLUE.getCode() + "Long thread interrupted");
+            }
+        });
+
+        longThread.start();
+        longThread.join();
+        System.out.println(ConsoleColor.BLACK.getCode()+"goodbye to main");
+    }
+
+//    thread variables - on stack - safe
+//    thread members - on heap - not safe. Need synchro or atomic type or threadlocal
+
+
 }
