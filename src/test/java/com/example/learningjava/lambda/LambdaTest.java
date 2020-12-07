@@ -1,13 +1,13 @@
 package com.example.learningjava.lambda;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,6 +60,41 @@ class LambdaTest {
     void supplier() {
 //        return value, no arguments
         Supplier<Integer> fun = () -> 5;
+        IntSupplier fun2 = () -> 10;
+
         assertThat(fun.get()).isEqualTo(5);
+        assertThat(fun2.getAsInt()).isEqualTo(10);
     }
+
+    @Test
+    void functions() {
+//        map one thing to another
+        Function<String, Integer> mapper = (x) -> x.length() + 10;
+        assertThat(mapper.apply("x")).isEqualTo(11);
+    }
+    @Data
+    @AllArgsConstructor
+    private static class Foo{
+        private Integer id;
+        private String name;
+    }
+
+    @Test
+    void composeFunctions() {
+        Function<Foo, String> getName = Foo::getName;
+        Function<String, Integer> getLen = String::length;
+        Function<Integer, String> getString = Object::toString;
+
+        assertThat(
+                getName
+                .andThen(getLen)
+                .andThen(getString)
+                .apply(new Foo(1, "Mike"))
+        ).isEqualTo("4");
+
+//        getLen(getName(obj))
+        Integer foobar = getLen.compose(getName).apply(new Foo(1, "Foobar"));
+        assertThat(foobar).isEqualTo(6);
+    }
+
 }
