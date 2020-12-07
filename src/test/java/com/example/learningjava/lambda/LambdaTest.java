@@ -67,6 +67,13 @@ class LambdaTest {
     }
 
     @Test
+    void unary() {
+//      1 arg, same type on return
+        UnaryOperator<Integer> inc = i -> i+1;
+        assertThat(inc.apply(1)).isEqualTo(2);
+    }
+
+    @Test
     void functions() {
 //        map one thing to another
         Function<String, Integer> mapper = (x) -> x.length() + 10;
