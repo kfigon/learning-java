@@ -1,9 +1,7 @@
 package com.example.learningjava.networking;
 
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,27 +27,30 @@ class BasicNetworkingTest {
 
 //    open connection, send request, receive response, close connection
 
+    void logServer(String log) {
+        System.out.println("\u001B[31m" +log);
+    }
+
+    void logClient(String log) {
+        System.out.println("\u001B[34m" +log);
+    }
+
     @SneakyThrows
     void createServer() {
         int port = 5000;
         try(ServerSocket serverSocket = new ServerSocket(port)) {
             Socket socket = serverSocket.accept();
-            System.out.println("client connected");
+            logServer("server created");
 
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-            while (true) {
-                System.out.println("waiting for msg");
-                String echo = input.readLine();
-                if(StringUtils.isNotBlank(echo)) {
-                    System.out.println("got msg!");
-                    out.println("message from server " + echo);
-                    break;
-                }
-            }
+            logServer("waiting for msg from client");
+            String echo = input.readLine();
+            logServer("got msg from client!");
+            out.println("Hello my client, you've just sent me: " + echo);
 
-            System.out.println("closing server");
+            logServer("closing server");
             input.close();
             out.close();
             socket.close();
@@ -62,16 +63,16 @@ class BasicNetworkingTest {
 //        localhost lub 127.0.0.1
         try (Socket socket = new Socket("localhost", port)) {
 
-            System.out.println("client created");
+            logClient("client created");
 
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
             sleep(3000);
 
-            System.out.println("sending msg");
+            logClient("sending msg to server");
             message.accept(out);
-            System.out.println("Received: " + input.readLine());
+            logClient("Received from server: " + input.readLine());
 
             input.close();
             out.close();
