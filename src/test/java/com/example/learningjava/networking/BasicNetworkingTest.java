@@ -27,6 +27,8 @@ class BasicNetworkingTest {
 
 //    open connection, send request, receive response, close connection
 
+//    code below is TCP
+
     void logServer(String log) {
         System.out.println("\u001B[31m" +log);
     }
@@ -38,7 +40,11 @@ class BasicNetworkingTest {
     @SneakyThrows
     void createServer() {
         int port = 5000;
+//        udp - DatagramSocket()
         try(ServerSocket serverSocket = new ServerSocket(port)) {
+//            we might create run code below in a new thread, so it can
+//            respond to more than 1 client + timeouts on socket
+
             Socket socket = serverSocket.accept();
             logServer("server created");
 
