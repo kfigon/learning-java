@@ -10,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static java.lang.Thread.sleep;
@@ -45,7 +43,7 @@ class BasicNetworkingTest {
                 System.out.println("waiting for msg");
                 String echo = input.readLine();
                 if(StringUtils.isNotBlank(echo)) {
-                    System.out.println("gor msg!");
+                    System.out.println("got msg!");
                     out.println("message from server " + echo);
                     break;
                 }
@@ -59,7 +57,7 @@ class BasicNetworkingTest {
     }
 
     @SneakyThrows
-    void createClient(List<Consumer<PrintWriter>> messages) {
+    void createClient(Consumer<PrintWriter> message) {
         int port = 5000;
 //        localhost lub 127.0.0.1
         try (Socket socket = new Socket("localhost", port)) {
@@ -71,24 +69,22 @@ class BasicNetworkingTest {
 
             sleep(3000);
 
-            for(var msg : messages) {
-                System.out.println("sending msg");
-                msg.accept(out);
-                System.out.println("Received: "+input.readLine());
-            }
+            System.out.println("sending msg");
+            message.accept(out);
+            System.out.println("Received: " + input.readLine());
+
+            input.close();
+            out.close();
         }
     }
 
     @Test
-    @Disabled("not fully working ;)")
     void test1() throws InterruptedException {
         Thread serverThread = new Thread(this::createServer);
 
         Thread clientThread = new Thread(() -> createClient(
-                Arrays.asList(
-                        (writer) -> writer.write("my first message!"),
-                        (writer) -> writer.write("exit")
-                )));
+                (writer) -> writer.println("my first message!")
+        ));
 
         serverThread.start();
         clientThread.start();
