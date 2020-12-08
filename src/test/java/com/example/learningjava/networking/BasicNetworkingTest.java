@@ -29,6 +29,7 @@ class BasicNetworkingTest {
 
 //    high level api - not use sockets, use URI and URL
 //    and streams from them
+//HttpUrlConnection - best method to do regular http requests in synchronous way
 
 //    code below is TCP
 
