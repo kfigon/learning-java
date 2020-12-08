@@ -27,6 +27,9 @@ class BasicNetworkingTest {
 
 //    open connection, send request, receive response, close connection
 
+//    high level api - not use sockets, use URI and URL
+//    and streams from them
+
 //    code below is TCP
 
     void logServer(String log) {
