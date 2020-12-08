@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,7 +30,7 @@ class StreamTest {
                 .forEach(System.out::println);
     }
 
-//    Stream.concat!!!
+//    Stream.concat to connect 2 streams
 //    distinct - uzywa equals do sprawdzenia czy to samo
 
     @AllArgsConstructor
@@ -47,7 +44,9 @@ class StreamTest {
 //        map single object to multiple objects
 
         Stream.of(getBars())
-                // .map(Bar::getVals) will return to List<String>
+//                 .map(Bar::getVals) //will return to List<String>
+//                .filter(Objects::nonNull)
+//                .flatMap(Collection::stream)
                 .flatMap(x -> x.getVals().stream())
                 .forEach(System.out::println);
     }
